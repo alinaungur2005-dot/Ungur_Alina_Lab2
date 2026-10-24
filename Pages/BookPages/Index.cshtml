@@ -1,4 +1,4 @@
-@page
+@page "/"
 @model Ungur_Alina_Lab2.Pages.BookPages.IndexModel
 
 @{
@@ -10,7 +10,10 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-<table class="table">
+
+<div class="row">
+    <div class="col-md-8">
+        <table class="table">
     <thead>
         <tr>
             <th>
@@ -29,13 +32,27 @@
              <th> 
                 @Html.DisplayNameFor(model => model.Book[0].Publisher.PublisherName) 
             </th> 
+
+            <th>
+                @Html.DisplayNameFor(model => model.Book[0].BookCategories)
+            </th>
+
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Book) {
-        <tr>
+@foreach (var item in Model.BookD.Books) {
+
+                    string selectedRow = "";
+                    if (item.ID == Model.BookID)
+                    {
+                        selectedRow = "table-success";
+                    }
+
+        
+
+        <tr class="@selectedRow">
             <td>
-                @Html.DisplayFor(model => item.Title)
+                <a asp-page="./Index" asp-route-id="@item.ID">@Html.DisplayFor(model => item.Title)</a>
             </td>
             <td>
                @Html.DisplayFor(modelItem => item.Author.FullName)
@@ -49,6 +66,18 @@
              <td> 
                 @Html.DisplayFor(modelItem => item.Publisher.PublisherName) 
             </td> 
+
+            <td>
+                @{
+                    foreach (var category in item.BookCategories)
+                    {
+                        @category.Category.ID
+                        @:  @category.Category.CategoryName <br />
+                    }
+                }
+            </td>
+
+
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
@@ -57,4 +86,33 @@
         </tr>
 }
     </tbody>
-</table>
+        </table>
+    </div>
+
+    <div class="col-md-4">
+      
+        @if (Model.BookD?.Categories != null)
+        {
+            <h4>Categories</h4>
+            <ul class="list-group">
+                @foreach (var c in Model.BookD.Categories)
+                {
+                    <li class="list-group-item">
+                        <a asp-page="./Index" asp-route-id="@Model.BookID" asp-route-categoryID="@c.ID">@c.CategoryName</a>
+                    </li>
+                }
+            </ul>
+        }
+
+        @if (Model.BookD?.BookCategories != null)
+        {
+            <h5 class="mt-3">Book categories</h5>
+            <ul>
+                @foreach (var bc in Model.BookD.BookCategories)
+                {
+                    <li>@bc.Category.CategoryName</li>
+                }
+            </ul>
+        }
+    </div>
+</div>
