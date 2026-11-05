@@ -9,4 +9,6 @@ public class Ungur_Alina_Lab2Context(DbContextOptions<Ungur_Alina_Lab2Context> o
 
     public DbSet<Ungur_Alina_Lab2.Models.Category> Category { get; set; } = default!;
     public DbSet<Ungur_Alina_Lab2.Models.BookCategory> BookCategory { get; set; } = default!;
+    public DbSet<Ungur_Alina_Lab2.Models.Member> Member { get; set; } = default!;
+    public DbSet<Ungur_Alina_Lab2.Models.Borrowing> Borrowing { get; set; } = default!;
 }
